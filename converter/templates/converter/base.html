@@ -1,0 +1,112 @@
+
+
+{% block content %}
+    <style>
+        /* Progress bar styles */
+        .progress-container {
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0;
+            background-color: #4CAF50;
+            transition: width 0.3s;
+        }
+
+        .status {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Font selection */
+        select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+
+        /* Checkbox styling */
+        input[type="checkbox"] {
+            margin-right: 5px;
+        }
+    </style>
+    <h1>Nepali PDF to Word Converter</h1>
+    <p>Convert PDF files containing Nepali fonts (Preeti, etc.) to editable Word documents while preserving layout</p>
+    
+    {% if error %}
+        <div class="error">
+            <strong>Error:</strong> {{ error }}
+            {% if debug %}
+                <div class="debug-info">
+                    <small>{{ debug }}</small>
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data" action="{% url 'convert' %}" id="conversion-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="pdf_file">Select PDF File:</label>
+            <input type="file" name="pdf_file" id="pdf_file" accept=".pdf" required>
+        </div>
+        
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="preserve_layout" checked> Preserve original layout
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <label>Output Font:</label>
+            <select name="output_font">
+                <option value="Preeti">Preeti</option>
+                <option value="Arial Unicode MS">Arial Unicode MS</option>
+                <option value="Mangal">Mangal</option>
+            </select>
+        </div>
+        
+        <button type="submit" id="convert-btn">Convert to Word</button>
+        
+        <div class="progress-container" style="display: none;">
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <div class="status">Processing...</div>
+        </div>
+    </form>
+    
+    <div class="instructions">
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Upload your PDF file containing Nepali text</li>
+            <li>Select output font (Preeti recommended for best results)</li>
+            <li>Click "Convert to Word"</li>
+            <li>Download the converted Word file</li>
+        </ol>
+        <p><strong>Note:</strong> For best results with Preeti font:</p>
+        <ul>
+            <li>Ensure the original PDF has embedded Nepali fonts</li>
+            <li>The Preeti font must be installed on your system to view the converted document properly</li>
+            <li>Complex layouts may not convert perfectly</li>
+        </ul>
+    </div>
+    
+    <script>
+        document.getElementById('conversion-form').addEventListener('submit', function() {
+            document.getElementById('convert-btn').disabled = true;
+            document.querySelector('.progress-container').style.display = 'block';
+        });
+    </script>
+{% endblock %}

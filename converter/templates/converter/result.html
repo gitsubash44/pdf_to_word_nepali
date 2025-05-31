@@ -1,0 +1,91 @@
+{% extends "converter/base.html" %}
+
+{% block content %}
+<style>
+    body {
+        background: #f4f7fa;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .result-container {
+        max-width: 480px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 6px 32px rgba(0,0,0,0.09);
+        padding: 36px 32px 32px 32px;
+        text-align: center;
+    }
+    .result-container h1 {
+        color: #2d6cdf;
+        font-size: 2.1rem;
+        margin-bottom: 18px;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+    }
+    .result-details {
+        background: #f0f4fa;
+        border-radius: 10px;
+        padding: 18px 16px;
+        margin-bottom: 28px;
+        text-align: left;
+    }
+    .result-details h3 {
+        color: #444;
+        font-size: 1.08rem;
+        margin: 0 0 4px 0;
+        font-weight: 600;
+    }
+    .result-details p {
+        color: #2d6cdf;
+        font-size: 1rem;
+        margin: 0 0 12px 0;
+        word-break: break-all;
+    }
+    .action-btn {
+        display: inline-block;
+        margin: 0 8px;
+        text-decoration: none;
+    }
+    .action-btn button {
+        background: linear-gradient(90deg, #2d6cdf 0%, #4e9fff 100%);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 12px 28px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 8px rgba(45,108,223,0.08);
+    }
+    .action-btn button:hover {
+        background: linear-gradient(90deg, #1b4e9b 0%, #3578c9 100%);
+    }
+    @media (max-width: 600px) {
+        .result-container {
+            padding: 18px 8px 20px 8px;
+        }
+        .action-btn button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+</style>
+
+<div class="result-container">
+    <h1>Conversion Complete!</h1>
+    <div class="result-details">
+        <h3>Original PDF:</h3>
+        <p>{{ original_file.file.name }}</p>
+        <h3>Converted Word File:</h3>
+        <p>{{ converted_file.word_file.name }}</p>
+    </div>
+    <a href="{% url 'download' converted_file.id %}" class="action-btn">
+        <button>⬇️ Download Word File</button>
+    </a>
+    <br><br>
+    <a href="{% url 'home' %}" class="action-btn">
+        <button>🔄 Convert Another File</button>
+    </a>
+</div>
+{% endblock %}

@@ -1,0 +1,128 @@
+{% extends "converter/base.html" %}
+{% block content %}
+<style>
+    body {
+        background: #f7f9fb;
+        font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .converter-container {
+        max-width: 480px;
+        margin: 40px auto;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        padding: 36px 32px 32px 32px;
+    }
+    .converter-container h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2d3748;
+        margin-bottom: 8px;
+        text-align: center;
+    }
+    .converter-container p {
+        color: #4a5568;
+        text-align: center;
+        margin-bottom: 24px;
+    }
+    .form-group {
+        margin-bottom: 22px;
+    }
+    label {
+        display: block;
+        font-weight: 600;
+        color: #374151;
+        margin-bottom: 8px;
+    }
+    input[type="file"] {
+        display: block;
+        width: 100%;
+        padding: 8px 0;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        background: #f1f5f9;
+        font-size: 1rem;
+        color: #374151;
+        transition: border 0.2s;
+    }
+    input[type="file"]:focus {
+        border-color: #3182ce;
+        outline: none;
+    }
+    button[type="submit"] {
+        width: 100%;
+        background: linear-gradient(90deg, #3182ce 0%, #4fd1c5 100%);
+        color: #fff;
+        font-weight: 700;
+        font-size: 1.1rem;
+        padding: 12px 0;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(49,130,206,0.08);
+        transition: background 0.2s;
+    }
+    button[type="submit"]:hover {
+        background: linear-gradient(90deg, #2563eb 0%, #38b2ac 100%);
+    }
+    .error {
+        background: #fed7d7;
+        color: #c53030;
+        border: 1px solid #feb2b2;
+        border-radius: 6px;
+        padding: 10px 16px;
+        margin-bottom: 18px;
+        text-align: center;
+        font-weight: 600;
+    }
+    .instructions {
+        background: #f1f5f9;
+        border-radius: 10px;
+        padding: 18px 20px;
+        margin-top: 28px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+    }
+    .instructions h3 {
+        color: #2b6cb0;
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+    .instructions ol {
+        margin-left: 18px;
+        color: #374151;
+        margin-bottom: 10px;
+    }
+    .instructions p {
+        color: #718096;
+        font-size: 0.98rem;
+        margin-bottom: 0;
+    }
+</style>
+<div class="converter-container">
+    <h1> PDF to Word Converter</h1>
+    <p>Convert PDF files containing to editable Word documents</p>
+    
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+    
+    <form method="post" enctype="multipart/form-data" action="{% url 'convert' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="pdf_file">Select PDF File:</label>
+            <input type="file" name="pdf_file" id="pdf_file" accept=".pdf" required>
+        </div>
+        <button type="submit">Convert to Word</button>
+    </form>
+    
+    <div class="instructions">
+        <h3>Instructions:</h3>
+        <ol>
+            <li>Upload your PDF file containing Nepali text</li>
+            <li>Click "Convert to Word"</li>
+            <li>Download the converted Word file</li>
+        </ol>
+    </div>
+</div>
+{% endblock %}
